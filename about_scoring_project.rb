@@ -31,6 +31,72 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 
 def score(dice)
   # You need to write this method
+  total = 0
+  accumulator = [{ones: 0},{twos: 0},{threes: 0},{fours: 0},{fives: 0},{sixes: 0}]  
+  
+
+  dice.each do |item|
+    if item == 1
+      accumulator[0][:ones] += 1
+    elsif item == 2  
+      accumulator[1][:twos] += 1
+    elsif item == 3
+      accumulator[2][:threes] += 1
+    elsif item == 4
+      accumulator[3][:fours] += 1
+    elsif item == 5 
+      accumulator[4][:fives] += 1
+    elsif item == 6
+      accumulator[5][:sixes] += 1
+    else
+      total == 0
+    end
+  end
+
+  if accumulator[0][:ones] == 3
+    total += 1000
+    #p 'increment + 1000'
+  elsif accumulator[0][:ones] == 4
+    total += 1100
+  elsif accumulator[0][:ones] == 5
+    total += 1200
+  elsif accumulator[0].key? :ones 
+    total += accumulator[0][:ones] * 100
+    #p 'increment ones: ', (accumulator[0][:ones] * 100)
+  end
+  
+  accumulator.each do |item|
+    
+    if item.value? 3
+      if item.key? :twos
+        total += 2 * 100
+        #p 'increment (3)', (item.values * 100)
+      elsif item.key? :threes
+        total += 3 * 100
+        #p 'increment (3)', (item.values * 100)
+      elsif item.key? :fours
+        total += 4 * 100
+        #p 'increment (3)', (item.values * 100)
+      elsif item.key? :fives
+        total += 5 * 100
+        #p 'increment (3)', (item.values * 100)
+      elsif item.key? :sixes
+        total += 6 * 100
+        #p 'increment (3)', (item.values * 100)
+      end
+    elsif item.key? :fives 
+      if item.value? 4
+        total += 5 * 100 + 50
+      elsif item.value? 5
+        total += 5 * 100 + 100
+      else
+        total += accumulator[4][:fives] * 50
+        #p 'increment fives: ', (accumulator[4][:fives]*50)
+      end
+    end
+    #p 'total', total
+  end
+  return total 
 end
 
 class AboutScoringProject < Neo::Koan
